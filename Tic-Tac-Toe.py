@@ -15,7 +15,7 @@ import sys
 class main:
     pygame.init()
 
-    # Screen and clocl
+    # Screen and clock
     displayWidth = 400
     displayHeight = 400
     screen = pygame.display.set_mode((displayWidth, displayHeight))
