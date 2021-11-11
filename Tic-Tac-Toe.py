@@ -22,11 +22,20 @@ blue = (0, 0, 255)
 black = (0, 0, 0)
 
 
+def drawGrid():
+    for i in range(0, 3):
+        for j in range(0, 3):
+            gridRect = pygame.Rect(
+                i * (displayWidth / 3), j * (displayHeight / 3), displayWidth / 3, displayHeight / 3)
+            pygame.draw.rect(screen, black, gridRect, 1)
+
+
 class main:
     pygame.init()
     running = True
     while running:
         screen.fill(white)
+        drawGrid()
         mousePos = pygame.mouse.get_pos()
 
         testRect = pygame.Rect(100, 200, 50, 100)  # For testing delete later
