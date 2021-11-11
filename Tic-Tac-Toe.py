@@ -30,29 +30,40 @@ def drawGrid():
             pygame.draw.rect(screen, black, gridRect, 1)
 
 
+class shape:
+    def __init__(self, type, x, y):
+        self.type = type
+        self.x = x
+        self.y = y
+
+    def draw(self):
+        objWidth = int(displayWidth / 3)
+        objHeight = int(displayHeight / 3)
+        shapeSurf = pygame.Surface((objWidth, objHeight))
+        if self.type == 0:
+            pygame.draw.circle(shapeSurf, red, (objWidth / 2,
+                                                objHeight / 2), objWidth / 2 - 5, 5)
+        else:
+            pygame.draw.line(shapeSurf, blue, (2, 2),
+                             (objWidth - 2, objHeight - 2), 5)
+            pygame.draw.line(
+                shapeSurf, blue, (2, objHeight - 2), (objWidth - 2, 2), 5)
+        screen.blit(shapeSurf, (self.x, self.y))
+
+
 class main:
     pygame.init()
     running = True
     while running:
         screen.fill(white)
-        drawGrid()
         mousePos = pygame.mouse.get_pos()
-
-        testRect = pygame.Rect(100, 200, 50, 100)  # For testing delete later
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
                 pygame.quit()
                 sys.exit()
-
-        print(mousePos)
-        pygame.draw.rect(screen, black, testRect)
-
-        # Checks if the mouse is in the box
-        if testRect.collidepoint((mousePos)):
-            pygame.draw.rect(screen, red, testRect)
-
-        pygame.display.update()
+        drawGrid()
+        pygame.display.flip()
         clock.tick(FPS)
 
 
