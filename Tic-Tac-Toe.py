@@ -11,21 +11,20 @@
 import pygame
 import sys
 
+# Screen and clock
+displayWidth = 400
+displayHeight = 400
+screen = pygame.display.set_mode((displayWidth, displayHeight))
+clock = pygame.time.Clock()
+FPS = 60
+
+# Colors
+white = (255, 255, 255)
+black = (0, 0, 0)
+
 
 class main:
     pygame.init()
-
-    # Screen and clock
-    displayWidth = 400
-    displayHeight = 400
-    screen = pygame.display.set_mode((displayWidth, displayHeight))
-    clock = pygame.time.Clock()
-    FPS = 60
-
-    # Colors
-    white = (255, 255, 255)
-    black = (0, 0, 0)
-
     running = True
     while running:
         for event in pygame.event.get():
