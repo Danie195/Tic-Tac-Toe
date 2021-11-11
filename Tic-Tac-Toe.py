@@ -1,5 +1,12 @@
 # Tic-Tac-Toe using Pygame. It's practice for me to be more focused on using object-oriented programming
 
+# TODO:
+# 1 Create Cursor and Click System
+# 2 Create Grid
+# 3 Create Assets
+# 4 Create Game Logic
+# 5 Create AI?
+
 import pygame
 import sys
 
