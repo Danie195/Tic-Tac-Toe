@@ -19,14 +19,7 @@ white = (255, 255, 255)
 red = (255, 0, 0)
 blue = (0, 0, 255)
 black = (0, 0, 0)
-
-
-def drawGrid():
-    for i in range(0, 3):
-        for j in range(0, 3):
-            gridRect = pygame.Rect(
-                i * (displayWidth / 3), j * (displayHeight / 3), displayWidth / 3, displayHeight / 3)
-            pygame.draw.rect(screen, black, gridRect, 1)
+yellow = (255, 255, 0)
 
 
 class shape:
@@ -50,6 +43,22 @@ class shape:
         screen.blit(shapeSurf, (self.x, self.y))
 
 
+def grid(mousePos):
+    for i in range(0, 3):
+        for j in range(0, 3):
+            gridRect = pygame.Rect(
+                i * (displayWidth / 3), j * (displayHeight / 3), displayWidth / 3, displayHeight / 3)
+            if gridRect.collidepoint(mousePos):
+                pygame.draw.rect(screen, yellow, gridRect, 1)
+                gridX = i * (displayWidth / 3)
+                gridY = j * (displayHeight / 3)
+            else:
+                pygame.draw.rect(screen, black, gridRect, 1)
+                gridX = 0
+                gridY = 0
+    return gridX, gridY
+
+
 class main:
     pygame.init()
     running = True
@@ -61,7 +70,7 @@ class main:
                 running = False
                 pygame.quit()
                 sys.exit()
-        drawGrid()
+        grid(mousePos)
         pygame.display.flip()
         clock.tick(FPS)
 
