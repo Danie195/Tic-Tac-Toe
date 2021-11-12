@@ -1,7 +1,6 @@
 # Tic-Tac-Toe using Pygame. It's practice for me to be more focused on using object-oriented programming
 
 # TODO:
-# 3 Create Assets
 # 4 Create Game Logic
 # 5 Create AI?
 
