@@ -32,6 +32,7 @@ class shape:
         objWidth = int(displayWidth / 3)
         objHeight = int(displayHeight / 3)
         shapeSurf = pygame.Surface((objWidth, objHeight))
+        shapeSurf.fill(white)
         if self.type == 0:
             pygame.draw.circle(shapeSurf, red, (objWidth / 2,
                                                 objHeight / 2), objWidth / 2 - 5, 5)
@@ -43,34 +44,49 @@ class shape:
         screen.blit(shapeSurf, (self.x, self.y))
 
 
-def grid(mousePos):
+def drawGrid(mousePos):
     for i in range(0, 3):
         for j in range(0, 3):
-            gridRect = pygame.Rect(
-                i * (displayWidth / 3), j * (displayHeight / 3), displayWidth / 3, displayHeight / 3)
+            gridRect = pygame.Rect(i * (displayWidth / 3), j *
+                                   (displayHeight / 3), displayWidth / 3, displayHeight / 3)
             if gridRect.collidepoint(mousePos):
                 pygame.draw.rect(screen, yellow, gridRect, 1)
-                gridX = i * (displayWidth / 3)
-                gridY = j * (displayHeight / 3)
+                gridX = int(i * displayWidth / 3)
+                gridY = int(j * displayWidth / 3)
             else:
                 pygame.draw.rect(screen, black, gridRect, 1)
-                gridX = 0
-                gridY = 0
     return gridX, gridY
+
+
+def drawShape(mouseCounter, gridPos):
+    # Need to draw a set number of shapes based on the mouse counter
+    gridX = gridPos[0]
+    gridY = gridPos[1]
+    if mouseCounter % 2 == 0:
+        shapeCircle = shape(1, gridX, gridY).draw
+    elif mouseCounter % 2 != 0:
+        shapeX = shape(0, gridX, gridY).draw
 
 
 class main:
     pygame.init()
     running = True
+
+    mouseCounter = 0
     while running:
         screen.fill(white)
         mousePos = pygame.mouse.get_pos()
+        gridPos = drawGrid(mousePos)
+        drawShape(mouseCounter, gridPos)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
                 pygame.quit()
                 sys.exit()
-        grid(mousePos)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouseCounter += 1
+                print(mouseCounter)
+
         pygame.display.flip()
         clock.tick(FPS)
 
