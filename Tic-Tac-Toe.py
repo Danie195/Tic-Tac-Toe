@@ -48,51 +48,61 @@ class shape:
 class grid:
     values = np.zeros((3, 3))
 
-    def drawGrid(mousePos):
-        for i in range(0, 3):
-            for j in range(0, 3):
-                gridRect = pygame.Rect(i * (displayWidth / 3), j *
+    def drawGrid(mousePos, i, j):
+        for x in range(0, 3):
+            for y in range(0, 3):
+                gridRect = pygame.Rect(x * (displayWidth / 3), y *
                                        (displayHeight / 3), displayWidth / 3, displayHeight / 3)
                 if gridRect.collidepoint(mousePos):
+                    gridX = int(x * displayWidth / 3)
+                    gridY = int(y * displayHeight / 3)
+                if gridRect.collidepoint(mousePos) and grid.values[i][j] == 0:
                     pygame.draw.rect(screen, yellow, gridRect, 1)
-                    gridX = int(i * displayWidth / 3)
-                    gridY = int(j * displayWidth / 3)
                 else:
                     pygame.draw.rect(screen, black, gridRect, 1)
         return gridX, gridY
 
-    def changeValues(gridPos):
+    def changeValues(gridPos, mouseCounter):
+        # 1 = circle
+        # 2 = x
+        shapeType = (mouseCounter % 2) + 1
         gridX = gridPos[0]
         gridY = gridPos[1]
         i = round(gridX * 3 / displayWidth)
         j = round(gridY * 3 / displayHeight)
-        return i, j
+        if grid.values[i][j] == 0:
+            grid.values[i][j] = shapeType
+        return grid.values
 
 
-def drawShape(mouseCounter, gridPos):
+def drawShape(mouseCounter, gridPos, i, j):
     gridX = gridPos[0]
     gridY = gridPos[1]
-    if mouseCounter % 2 == 0:
-        shape(1, gridX, gridY).draw()
-        print('o')
-    elif mouseCounter % 2 != 0:
-        shape(0, gridX, gridY).draw()
-        print('x')
+    if grid.values[i][j] == 0:  # Checks if nothing is in the spot
+        if mouseCounter % 2 == 0:
+            shape(1, gridX, gridY).draw()
+            print('o')
+        elif mouseCounter % 2 != 0:
+            shape(0, gridX, gridY).draw()
+            print('x')
 
 
 class main:
     pygame.init()
     running = True
     screen.fill(white)
-    grid.drawGrid((0, 0))  # Initialize the grid
-    gridValues = grid.values  # What is on the grid
+    i = 0
+    j = 0
+    grid.drawGrid((0, 0), i, j)  # Initialize the grid
     mouseCounter = 0
     while running:
         mousePos = pygame.mouse.get_pos()
 
         # Checks if the mouse is on the screen within a certain range
         if 0 < mousePos[0] < displayWidth - 5 and 0 < mousePos[1] < displayHeight - 5:
-            gridPos = grid.drawGrid(mousePos)
+            gridPos = grid.drawGrid(mousePos, i, j)
+            i = round(gridPos[0] * 3 / displayWidth)
+            j = round(gridPos[1] * 3 / displayHeight)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -100,8 +110,8 @@ class main:
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouseCounter += 1
-                drawShape(mouseCounter, gridPos)
-                print(grid.changeValues(gridPos))
+                drawShape(mouseCounter, gridPos, i, j)
+                print(grid.changeValues(gridPos, mouseCounter))
 
         pygame.display.flip()
         clock.tick(FPS)
