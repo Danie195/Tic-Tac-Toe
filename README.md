@@ -1,3 +1,5 @@
 # DEPENDENCIES
 
 # Pygame
+
+# Numpy
